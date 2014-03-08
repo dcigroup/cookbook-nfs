@@ -23,12 +23,22 @@ service node['nfs']['service']['server'] do
 end
 
 service "nfslock" do
+  when "ubuntu"
+    if node["platform_version"].to_f >= 9.10
+      provider Chef::Provider::Service::Upstart
+    end
+  end
   service_name node['nfs']['service']['lock']
   action [ :stop, :disable ]
 end
 
 # Stop nfs client components
 service "portmap" do
+  when "ubuntu"
+    if node["platform_version"].to_f >= 9.10
+      provider Chef::Provider::Service::Upstart
+    end
+  end
   service_name node['nfs']['service']['portmap']
   action [ :stop, :disable ]
 end
