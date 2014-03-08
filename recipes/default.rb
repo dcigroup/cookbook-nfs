@@ -33,6 +33,7 @@ end
 
 # Start NFS client components
 service "portmap" do
+  case node['platform']
   when "ubuntu"
     if node["platform_version"].to_f >= 9.10
       provider Chef::Provider::Service::Upstart
@@ -44,6 +45,7 @@ service "portmap" do
 end
 
 service "nfslock" do
+  case node['platform']
   when "ubuntu"
     if node["platform_version"].to_f >= 9.10
       provider Chef::Provider::Service::Upstart
